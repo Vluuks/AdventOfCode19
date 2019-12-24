@@ -21,7 +21,6 @@ for move in wire1:
 
   wire1_coordinates.append((w1_x, w1_y))
 
-
 w2_x = 0
 w2_y = 0
 for move in wire2:
@@ -39,38 +38,126 @@ for move in wire2:
 
   wire2_coordinates.append((w2_x, w2_y))
 
-print(wire2_coordinates)
-
-# calculate all the points that have been passed
-for coordinates in wire1_coordinates:
+# print(wire2_coordinates)
 
 
 
 
+# for the first mapping
 coordinates_steps1 = []
-for i, coordinates1 in enumerate(wire1_coordinates):
+for i, coordinates in enumerate(wire1_coordinates):
+
+  print("current")
+  print(coordinates)
   
+  coordinates_steps1.append(coordinates)
+
   if i > 0:
     # get previous point
-    previous = coordinates1[i-1]
-
+    previous = wire1_coordinates[i-1]
+    print("previous")
+    print(previous)
+    
     # check in which direction the difference lies
     # movement on x axis
-    elif previous[1] == coordinates[1]:
+    if previous[1] == coordinates[1]:
+      print("move on x")
 
+        # check for all these points between previous[0] and coordinates[0]
+      between = [previous[0], coordinates[0]]
+      between.sort()
+
+      for c in range(between[0], between[1]):
+        combo = (c, coordinates[1]) # with original y
+        coordinates_steps1.append(combo)        
 
         # movement on y axis
-    if previous[0] == coordinates1[0]:
+    elif previous[0] == coordinates[0]:
+      print("move on y")
+      print(previous[1])
+      print(coordinates[1])
 
       # check for all these points between previous[1] and coordinates[1]
-      sorted = [previous[1], coordinates[1]].sort()
-      for c in range(sorted[0], sorted[1]):
+      between = [previous[1], coordinates[1]]
+      between.sort()
+
+      for c in range(between[0], between[1]):
+        combo = (coordinates[0], c) # with original x
+        coordinates_steps1.append(combo)
+
+print(coordinates_steps1)
 
 
+# for the first mapping
+coordinates_steps2 = []
+for i, coordinates in enumerate(wire2_coordinates):
 
+  print("current")
+  print(coordinates)
+  
+  coordinates_steps2.append(coordinates)
 
-    # for coordinates2 in wire2_coordinates:
-    #   if str(coordinates1) == str(coordinates2):
-    #     intersections.append(coordinates1)
+  if i > 0:
+    # get previous point
+    previous = wire2_coordinates[i-1]
+    print("previous")
+    print(previous)
+    
+    # check in which direction the difference lies
+    # movement on x axis
+    if previous[1] == coordinates[1]:
+      print("move on x")
+
+        # check for all these points between previous[0] and coordinates[0]
+      between = [previous[0], coordinates[0]]
+      between.sort()
+
+      for c in range(between[0], between[1]):
+        combo = (c, coordinates[1]) # with original y
+        coordinates_steps2.append(combo)        
+
+        # movement on y axis
+    elif previous[0] == coordinates[0]:
+      print("move on y")
+      print(previous[1])
+      print(coordinates[1])
+
+      # check for all these points between previous[1] and coordinates[1]
+      between = [previous[1], coordinates[1]]
+      between.sort()
+
+      for c in range(between[0], between[1]):
+        combo = (coordinates[0], c) # with original x
+        coordinates_steps2.append(combo)
+
+print(coordinates_steps2)
+
+print("INTERSECTIONS")
+
+print(len(coordinates_steps1))
+print(len(coordinates_step2))
+print(len(coordinates_steps1) * len(coordinates_steps2))
+
+intersections = []
+for coordinates1 in coordinates_steps1:
+    for coordinates2 in coordinates_steps2:
+      print("...")
+      if coordinates1 == coordinates2:
+        print("crossing")
+        intersections.append(coordinates1)
 
 print(intersections)
+print(len(intersections))
+
+# calculate manhattan distance for each
+manhattans = []
+origin = (0, 0)
+
+print("manhattans")
+for intersection in intersections:
+  # m = abs(x1-x2)+abs(y1-y2)
+  m = abs(0 - intersection[0]) + abs (0 - intersection[1])
+  manhattans.append(m)
+
+minman = manhattans.min()
+print(minman)
